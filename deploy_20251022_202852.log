@@ -1,0 +1,8 @@
+2025-10-22 20:28:52 🚀 Starting deployment
+Git Repository URL: Personal Access Token (PAT): Branch name [default: main]: Application internal port (e.g., 5000): SSH Username (placeholder): SSH Host/IP (placeholder): 2025-10-22 20:30:03 🔐 Testing SSH connectivity...
+❌ Host unreachable
+ubuntu@23.23.49.43: Permission denied (publickey).
+⚠️ SSH connection failed (placeholder)
+2025-10-22 20:30:13 🖥️ Executing remote command (placeholder)...
+ubuntu@23.23.49.43: Permission denied (publickey).
+❌ Error on line 41
