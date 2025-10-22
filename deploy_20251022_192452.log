@@ -1,0 +1,6 @@
+🚀 Starting deployment at Wed Oct 22 19:24:52 UTC 2025
+Git Repository URL: Personal Access Token (PAT): Branch name [default: main]: Remote SSH Username: Remote Server IP: SSH Key Path (e.g., ~/hng.pem): Application internal port (e.g., 5000): 🔐 Checking SSH connectivity...
+Warning: Identity file /c/Users/awwangari/Downloads/hng.pem not accessible: No such file or directory.
+Warning: Permanently added '23.23.49.43' (ED25519) to the list of known hosts.
+ubuntu@23.23.49.43: Permission denied (publickey).
+❌ SSH connection failed

@@ -1,0 +1,5 @@
+🚀 Starting deployment at Wed Oct 22 19:29:13 UTC 2025
+Git Repository URL: Personal Access Token (PAT): Branch name [default: main]: Remote SSH Username: Remote Server IP: SSH Key Path (e.g., ~/hng.pem): Application internal port (e.g., 5000): 🔐 Checking SSH connectivity...
+Warning: Identity file none not accessible: No such file or directory.
+ubuntu@23.23.49.43: Permission denied (publickey).
+❌ SSH connection failed

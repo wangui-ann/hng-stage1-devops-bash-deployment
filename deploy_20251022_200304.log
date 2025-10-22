@@ -1,0 +1,139 @@
+🚀 Starting deployment at Wed Oct 22 20:03:04 UTC 2025
+Git Repository URL: Personal Access Token (PAT): Branch name [default: main]: Application internal port (e.g., 5000): SSH Username (placeholder): SSH Host/IP (placeholder): 🔐 Checking SSH connectivity (placeholder)...
+SSH OK
+📦 Cloning repository...
+Cloning into 'hng-stage1-devops-bash-deployment'...
+🛠️ Installing dependencies...
+Hit:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble InRelease
+Hit:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates InRelease
+Hit:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-backports InRelease
+Get:4 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+Get:5 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1260 kB]
+Get:6 http://security.ubuntu.com/ubuntu noble-security/main Translation-en [208 kB]
+Get:7 http://security.ubuntu.com/ubuntu noble-security/main amd64 Components [21.6 kB]
+Get:8 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [904 kB]
+Get:9 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Components [52.3 kB]
+Get:10 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [2069 kB]
+Get:11 http://security.ubuntu.com/ubuntu noble-security/restricted Translation-en [468 kB]
+Get:12 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Components [208 B]
+Get:13 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Components [212 B]
+Fetched 5108 kB in 1s (3823 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+docker.io is already the newest version (28.2.2-0ubuntu1~24.04.1).
+docker-compose is already the newest version (1.29.2-6ubuntu1).
+nginx is already the newest version (1.24.0-2ubuntu7.5).
+curl is already the newest version (8.5.0-2ubuntu10.6).
+dos2unix is already the newest version (7.5.1-1).
+0 upgraded, 0 newly installed, 0 to remove and 55 not upgraded.
+🔐 Configuring Docker and Nginx...
+Synchronizing state of nginx.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
+Executing: /usr/lib/systemd/systemd-sysv-install enable nginx
+🐳 Deploying Docker container...
+app
+app
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  89.09kB
+Step 1/6 : FROM python:3.11-slim
+ ---> ff15e80be861
+Step 2/6 : WORKDIR /app
+ ---> Using cache
+ ---> 22493e70dd86
+Step 3/6 : COPY . .
+ ---> 981e944982dc
+Step 4/6 : RUN pip install --no-cache-dir -r requirements.txt
+ ---> Running in b42941e6a9c0
+Collecting flask (from -r requirements.txt (line 1))
+  Downloading flask-3.1.2-py3-none-any.whl.metadata (3.2 kB)
+Collecting gunicorn (from -r requirements.txt (line 2))
+  Downloading gunicorn-23.0.0-py3-none-any.whl.metadata (4.4 kB)
+Collecting blinker>=1.9.0 (from flask->-r requirements.txt (line 1))
+  Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+Collecting click>=8.1.3 (from flask->-r requirements.txt (line 1))
+  Downloading click-8.3.0-py3-none-any.whl.metadata (2.6 kB)
+Collecting itsdangerous>=2.2.0 (from flask->-r requirements.txt (line 1))
+  Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+Collecting jinja2>=3.1.2 (from flask->-r requirements.txt (line 1))
+  Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting markupsafe>=2.1.1 (from flask->-r requirements.txt (line 1))
+  Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+Collecting werkzeug>=3.1.0 (from flask->-r requirements.txt (line 1))
+  Downloading werkzeug-3.1.3-py3-none-any.whl.metadata (3.7 kB)
+Collecting packaging (from gunicorn->-r requirements.txt (line 2))
+  Downloading packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+Downloading flask-3.1.2-py3-none-any.whl (103 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 103.3/103.3 kB 26.1 MB/s eta 0:00:00
+Downloading gunicorn-23.0.0-py3-none-any.whl (85 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 85.0/85.0 kB 201.9 MB/s eta 0:00:00
+Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+Downloading click-8.3.0-py3-none-any.whl (107 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 107.3/107.3 kB 208.8 MB/s eta 0:00:00
+Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 134.9/134.9 kB 169.4 MB/s eta 0:00:00
+Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+Downloading werkzeug-3.1.3-py3-none-any.whl (224 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 224.5/224.5 kB 163.6 MB/s eta 0:00:00
+Downloading packaging-25.0-py3-none-any.whl (66 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 66.5/66.5 kB 192.5 MB/s eta 0:00:00
+Installing collected packages: packaging, markupsafe, itsdangerous, click, blinker, werkzeug, jinja2, gunicorn, flask
+Successfully installed blinker-1.9.0 click-8.3.0 flask-3.1.2 gunicorn-23.0.0 itsdangerous-2.2.0 jinja2-3.1.6 markupsafe-3.0.3 packaging-25.0 werkzeug-3.1.3
+[91mWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+[0m[91m
+[notice] A new release of pip is available: 24.0 -> 25.2
+[notice] To update, run: pip install --upgrade pip
+[0m ---> Removed intermediate container b42941e6a9c0
+ ---> cf1b61a6ca1b
+Step 5/6 : EXPOSE 5000
+ ---> Running in 66d0f3c52497
+ ---> Removed intermediate container 66d0f3c52497
+ ---> 30c7c15f8831
+Step 6/6 : CMD ["python", "app.py"]
+ ---> Running in 7a469ffb0c7b
+ ---> Removed intermediate container 7a469ffb0c7b
+ ---> e5beaa75e5cb
+Successfully built e5beaa75e5cb
+Successfully tagged app:latest
+f7ced0a5c4b23ecc25643f0475486d46608ab941b90381a4b33078c90295a53d
+🔍 Checking container health...
+⚠️ No health check configured or container not found
+🌐 Configuring Nginx reverse proxy...
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+🔒 SSL setup placeholder — add Certbot or self-signed cert logic here if needed
+✅ Validating deployment...
+Docker service status:
+active
+Running containers:
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+Nginx service status:
+active
+Testing app endpoint locally:
+<!DOCTYPE html>
+<html>
+html { color-scheme: light dark; }
+</html>
+✅ App is responding
+🧹 Cleaning up unused Docker resources...
+Deleted Containers:
+f7ced0a5c4b23ecc25643f0475486d46608ab941b90381a4b33078c90295a53d
+c9c9fd486559f1346ddf64c77fc0764a6048c3a7fa20ac62805ec06137822632
+
+Total reclaimed space: 10.48MB
+Deleted Images:
+deleted: sha256:e7004094a91c3ebb83671fb2b6b20606b6fe5043af60567f5b47140a77d517c4
+deleted: sha256:f0492b628e9b742dc84478c9b16690e5ea6efdf411e33e9221342eed38d36e2c
+deleted: sha256:3e76883b70024f3b4d14e00d99c019d50d372718d8a2858472e0ef6d06754106
+deleted: sha256:6fe8550850aad6ef21875b65e059d9f5aad45f044f6094e0d3c874270b83739a
+deleted: sha256:6c5e9f682b1e12fd81db1eb059a760736acba175abbfe0c89083d6c5dd884e3a
+deleted: sha256:1adb5c6ef2a91d4ce690a5fddcb8a2ec28892ba0ba2bef80c2d2eaa0727bc694
+deleted: sha256:8395146eee4af1a9d01ff0378476b447aea56ef10a52058683afd45c1478b50b
+deleted: sha256:82cc185b7336f2f5c0cda8d8847b11707d7153c4063dfe02efa2dfae1f827152
+
+Total reclaimed space: 16.74MB
+🎉 Deployment complete. Visit your EC2 public IP in a browser.
