@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
-trap 'echo "$(date '+%Y-%m-%d %H:%M:%S') ❌ Error on line $LINENO"; exit 1' ERR
+trap 'echo "$(date +%Y-%m-%d\ %H:%M:%S) ❌ Error on line $LINENO"; exit 1' ERR
 
 LOG_FILE="deploy_$(date +%Y%m%d_%H%M%S).log"
 exec > >(tee -a "$LOG_FILE") 2>&1
