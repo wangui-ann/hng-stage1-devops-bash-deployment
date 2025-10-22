@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
-trap 'echo "❌ Error on line $LINENO"; exit 1' ERR
+trap 'echo "$(date '+%Y-%m-%d %H:%M:%S') ❌ Error on line $LINENO"; exit 1' ERR
 
 LOG_FILE="deploy_$(date +%Y%m%d_%H%M%S).log"
 exec > >(tee -a "$LOG_FILE") 2>&1
@@ -23,7 +23,7 @@ if [[ -z "$REPO_URL" || -z "$PAT" || -z "$APP_PORT" ]]; then
 fi
 
 # === SSH Connectivity Check ===
-echo "$(date '+%Y-%m-%d %H:%M:%S') 🔐 Testing SSH connectivity..."
+echo "$(date '+%Y-%m-%d %H:%M:%S') �� Testing SSH connectivity..."
 if ping -c 1 "$SSH_HOST" &>/dev/null; then
   echo "✅ Host reachable via ping"
 else
@@ -100,6 +100,10 @@ fi
 
 # === Nginx Configuration ===
 echo "$(date '+%Y-%m-%d %H:%M:%S') 🌐 Configuring Nginx reverse proxy..."
+if [ -f /etc/nginx/sites-available/app.conf ]; then
+  echo "⚠️ Existing Nginx config will be overwritten"
+fi
+
 sudo tee /etc/nginx/sites-available/app.conf > /dev/null <<NGINX
 server {
     listen 80;
@@ -138,4 +142,8 @@ echo "$(date '+%Y-%m-%d %H:%M:%S') 🧹 Cleaning up unused Docker resources..."
 docker container prune -f
 docker image prune -f
 
+echo "$(date '+%Y-%m-%d %H:%M:%S') 🧹 Removing temp files..."
+rm -rf /tmp/deployment
+
 echo "$(date '+%Y-%m-%d %H:%M:%S') 🎉 Deployment complete. Visit your EC2 public IP in a browser."
+

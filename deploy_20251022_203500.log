@@ -1,0 +1,216 @@
+2025-10-22 20:35:00 🚀 Starting deployment
+Git Repository URL: Personal Access Token (PAT): Branch name [default: main]: Application internal port (e.g., 5000): SSH Username (placeholder): SSH Host/IP (placeholder): 2025-10-22 20:35:42 🔐 Testing SSH connectivity...
+❌ Host unreachable
+2025-10-22 20:35:52 🔐 Attempting SSH connection (placeholder)...
+⚠️ SSH connection failed (placeholder)
+2025-10-22 20:35:52 🖥️ Executing remote command (placeholder)...
+⚠️ Remote command failed (placeholder)
+2025-10-22 20:35:52 📤 Simulating file transfer...
+ubuntu@23.23.49.43: Permission denied (publickey).
+scp: Connection closed
+⚠️ File transfer placeholder
+2025-10-22 20:35:52 📁 Repo exists. Pulling latest...
+From https://github.com/wangui-ann/hng-stage1-devops-bash-deployment
+   d11a3a0..068ca8a  main       -> origin/main
+Already on 'main'
+Your branch is behind 'origin/main' by 6 commits, and can be fast-forwarded.
+  (use "git pull" to update your local branch)
+From https://github.com/wangui-ann/hng-stage1-devops-bash-deployment
+ * branch            main       -> FETCH_HEAD
+Updating d11a3a0..068ca8a
+Fast-forward
+ deploy.sh                         |  70 +++++++++++++------
+ deploy_20251022_192452.log        |   6 ++
+ deploy_20251022_192913.log        |   5 ++
+ deploy_20251022_195913.log        |  65 ++++++++++++++++++
+ deploy_20251022_200304.log        | 139 ++++++++++++++++++++++++++++++++++++++
+ deploy_20251022_202852.log        |   8 +++
+ deploy_20251022_203044.log        |   8 +++
+ hng-stage1-devops-bash-deployment |   1 +
+ 8 files changed, 281 insertions(+), 21 deletions(-)
+ mode change 100644 => 100755 deploy.sh
+ create mode 100644 deploy_20251022_192452.log
+ create mode 100644 deploy_20251022_192913.log
+ create mode 100644 deploy_20251022_195913.log
+ create mode 100644 deploy_20251022_200304.log
+ create mode 100644 deploy_20251022_202852.log
+ create mode 100644 deploy_20251022_203044.log
+ create mode 160000 hng-stage1-devops-bash-deployment
+2025-10-22 20:35:53 🛠️ Installing dependencies...
+Hit:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble InRelease
+Get:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Get:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+Hit:4 http://security.ubuntu.com/ubuntu noble-security InRelease
+Get:5 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1535 kB]
+Get:6 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [174 kB]
+Get:7 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [378 kB]
+Get:8 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Components [212 B]
+Get:9 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+Get:10 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [7136 B]
+Get:11 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [11.0 kB]
+Get:12 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-backports/restricted amd64 Components [212 B]
+Get:13 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Components [212 B]
+Fetched 2359 kB in 1s (3731 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+docker.io is already the newest version (28.2.2-0ubuntu1~24.04.1).
+docker-compose is already the newest version (1.29.2-6ubuntu1).
+nginx is already the newest version (1.24.0-2ubuntu7.5).
+curl is already the newest version (8.5.0-2ubuntu10.6).
+dos2unix is already the newest version (7.5.1-1).
+0 upgraded, 0 newly installed, 0 to remove and 55 not upgraded.
+2025-10-22 20:35:58 🔧 Configuring Docker and Nginx...
+Synchronizing state of nginx.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
+Executing: /usr/lib/systemd/systemd-sysv-install enable nginx
+2025-10-22 20:35:59 🐳 Deploying Docker container...
+Error response from daemon: No such container: app
+Error response from daemon: No such container: app
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  156.7kB
+Step 1/6 : FROM python:3.11-slim
+ ---> ff15e80be861
+Step 2/6 : WORKDIR /app
+ ---> Using cache
+ ---> 22493e70dd86
+Step 3/6 : COPY . .
+ ---> deab08fb9503
+Step 4/6 : RUN pip install --no-cache-dir -r requirements.txt
+ ---> Running in 7a199222a900
+Collecting flask (from -r requirements.txt (line 1))
+  Downloading flask-3.1.2-py3-none-any.whl.metadata (3.2 kB)
+Collecting gunicorn (from -r requirements.txt (line 2))
+  Downloading gunicorn-23.0.0-py3-none-any.whl.metadata (4.4 kB)
+Collecting blinker>=1.9.0 (from flask->-r requirements.txt (line 1))
+  Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+Collecting click>=8.1.3 (from flask->-r requirements.txt (line 1))
+  Downloading click-8.3.0-py3-none-any.whl.metadata (2.6 kB)
+Collecting itsdangerous>=2.2.0 (from flask->-r requirements.txt (line 1))
+  Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+Collecting jinja2>=3.1.2 (from flask->-r requirements.txt (line 1))
+  Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting markupsafe>=2.1.1 (from flask->-r requirements.txt (line 1))
+  Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+Collecting werkzeug>=3.1.0 (from flask->-r requirements.txt (line 1))
+  Downloading werkzeug-3.1.3-py3-none-any.whl.metadata (3.7 kB)
+Collecting packaging (from gunicorn->-r requirements.txt (line 2))
+  Downloading packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+Downloading flask-3.1.2-py3-none-any.whl (103 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 103.3/103.3 kB 258.8 MB/s eta 0:00:00
+Downloading gunicorn-23.0.0-py3-none-any.whl (85 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 85.0/85.0 kB 128.0 MB/s eta 0:00:00
+Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+Downloading click-8.3.0-py3-none-any.whl (107 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 107.3/107.3 kB 256.1 MB/s eta 0:00:00
+Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 134.9/134.9 kB 273.5 MB/s eta 0:00:00
+Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+Downloading werkzeug-3.1.3-py3-none-any.whl (224 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 224.5/224.5 kB 325.0 MB/s eta 0:00:00
+Downloading packaging-25.0-py3-none-any.whl (66 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 66.5/66.5 kB 264.3 MB/s eta 0:00:00
+Installing collected packages: packaging, markupsafe, itsdangerous, click, blinker, werkzeug, jinja2, gunicorn, flask
+Successfully installed blinker-1.9.0 click-8.3.0 flask-3.1.2 gunicorn-23.0.0 itsdangerous-2.2.0 jinja2-3.1.6 markupsafe-3.0.3 packaging-25.0 werkzeug-3.1.3
+[91mWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+[0m[91m
+[notice] A new release of pip is available: 24.0 -> 25.2
+[notice] To update, run: pip install --upgrade pip
+[0m ---> Removed intermediate container 7a199222a900
+ ---> 7213d626bda4
+Step 5/6 : EXPOSE 5000
+ ---> Running in d3521d38438b
+ ---> Removed intermediate container d3521d38438b
+ ---> f811f0993383
+Step 6/6 : CMD ["python", "app.py"]
+ ---> Running in 66c4b764a625
+ ---> Removed intermediate container 66c4b764a625
+ ---> 4842e4f4bc55
+Successfully built 4842e4f4bc55
+Successfully tagged app:latest
+4163abc4e376e508e8e4bcfcd8640d16864c848237e52ba682fd8e1d63bd4601
+2025-10-22 20:36:06 🔍 Checking container health...
+⚠️ No health check configured or container not found
+2025-10-22 20:36:07 🌐 Configuring Nginx reverse proxy...
+2025-10-22 20:36:07 🔄 Testing and reloading Nginx...
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+2025-10-22 20:36:07 🔒 SSL setup placeholder — add Certbot or self-signed cert logic here if needed
+2025-10-22 20:36:07 ✅ Validating deployment...
+🔍 Checking Docker service...
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2025-10-22 16:22:11 UTC; 4h 13min ago
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 2736 (dockerd)
+      Tasks: 10
+     Memory: 100.8M (peak: 235.4M)
+        CPU: 9.012s
+     CGroup: /system.slice/docker.service
+             └─2736 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+
+Oct 22 19:07:08 ip-172-31-28-91 dockerd[2736]: time="2025-10-22T19:07:08.967292787Z" level=info msg="Layer sha256:4266d856b5e03da969ff6d7f8080e7eddcc31174ed6c8b39722af68b22f8e312 cleaned up"
+Oct 22 19:07:09 ip-172-31-28-91 dockerd[2736]: time="2025-10-22T19:07:09.253698167Z" level=info msg="ignoring event" container=8ff4bf84dad47b0a3564114b65e97b4ad6a90e7bee500a608cdeb7577f6abe5a module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+Oct 22 20:06:16 ip-172-31-28-91 dockerd[2736]: time="2025-10-22T20:06:16.556557993Z" level=info msg="ignoring event" container=b42941e6a9c053ccf1f2daaf87ec0ff11f610dc6f800731770d3d5ba1aa697d1 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+Oct 22 20:06:17 ip-172-31-28-91 dockerd[2736]: time="2025-10-22T20:06:17.641334235Z" level=info msg="Layer sha256:14a85d16c47eac3533ea62ea4db2b6194b74c71610d6111776df3868aca08e83 cleaned up"
+Oct 22 20:06:17 ip-172-31-28-91 dockerd[2736]: time="2025-10-22T20:06:17.725705609Z" level=info msg="Layer sha256:14a85d16c47eac3533ea62ea4db2b6194b74c71610d6111776df3868aca08e83 cleaned up"
+Oct 22 20:06:18 ip-172-31-28-91 dockerd[2736]: time="2025-10-22T20:06:18.117414482Z" level=info msg="ignoring event" container=f7ced0a5c4b23ecc25643f0475486d46608ab941b90381a4b33078c90295a53d module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+Oct 22 20:36:05 ip-172-31-28-91 dockerd[2736]: time="2025-10-22T20:36:05.804991775Z" level=info msg="ignoring event" container=7a199222a900617ed5437372456e6659b49a776e0f07822ac0ad1cff62ae6e13 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+Oct 22 20:36:06 ip-172-31-28-91 dockerd[2736]: time="2025-10-22T20:36:06.550771585Z" level=info msg="Layer sha256:defcffc6d100357b36cb6b6cde52dc1390885fcf6011ecc7d1e69de283846db3 cleaned up"
+Oct 22 20:36:06 ip-172-31-28-91 dockerd[2736]: time="2025-10-22T20:36:06.618512182Z" level=info msg="Layer sha256:defcffc6d100357b36cb6b6cde52dc1390885fcf6011ecc7d1e69de283846db3 cleaned up"
+Oct 22 20:36:06 ip-172-31-28-91 dockerd[2736]: time="2025-10-22T20:36:06.903355733Z" level=info msg="ignoring event" container=4163abc4e376e508e8e4bcfcd8640d16864c848237e52ba682fd8e1d63bd4601 module=libcontainerd namespace=moby topic=/tasks/delete type="*events.TaskDelete"
+🔍 Checking Nginx service...
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/usr/lib/systemd/system/nginx.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2025-10-22 16:22:07 UTC; 4h 13min ago
+       Docs: man:nginx(8)
+    Process: 16378 ExecReload=/usr/sbin/nginx -g daemon on; master_process on; -s reload (code=exited, status=0/SUCCESS)
+   Main PID: 2678 (nginx)
+      Tasks: 5 (limit: 1008)
+     Memory: 4.8M (peak: 5.6M)
+        CPU: 98ms
+     CGroup: /system.slice/nginx.service
+             ├─ 2678 "nginx: master process /usr/sbin/nginx -g daemon on; master_process on;"
+             ├─15265 "nginx: worker process"
+             ├─15266 "nginx: worker process"
+             ├─16380 "nginx: worker process"
+             └─16381 "nginx: worker process"
+
+Oct 22 16:22:07 ip-172-31-28-91 systemd[1]: Started nginx.service - A high performance web server and a reverse proxy server.
+Oct 22 19:07:09 ip-172-31-28-91 systemd[1]: Reloading nginx.service - A high performance web server and a reverse proxy server...
+Oct 22 19:07:09 ip-172-31-28-91 nginx[13508]: 2025/10/22 19:07:09 [notice] 13508#13508: signal process started
+Oct 22 19:07:09 ip-172-31-28-91 systemd[1]: Reloaded nginx.service - A high performance web server and a reverse proxy server.
+Oct 22 20:06:18 ip-172-31-28-91 systemd[1]: Reloading nginx.service - A high performance web server and a reverse proxy server...
+Oct 22 20:06:18 ip-172-31-28-91 nginx[15259]: 2025/10/22 20:06:18 [notice] 15259#15259: signal process started
+Oct 22 20:06:18 ip-172-31-28-91 systemd[1]: Reloaded nginx.service - A high performance web server and a reverse proxy server.
+Oct 22 20:36:07 ip-172-31-28-91 systemd[1]: Reloading nginx.service - A high performance web server and a reverse proxy server...
+Oct 22 20:36:07 ip-172-31-28-91 nginx[16378]: 2025/10/22 20:36:07 [notice] 16378#16378: signal process started
+Oct 22 20:36:07 ip-172-31-28-91 systemd[1]: Reloaded nginx.service - A high performance web server and a reverse proxy server.
+Running containers:
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+Testing app endpoint locally:
+<!DOCTYPE html>
+<html>
+html { color-scheme: light dark; }
+</html>
+✅ App is responding
+2025-10-22 20:36:07 🧹 Cleaning up unused Docker resources...
+Deleted Containers:
+4163abc4e376e508e8e4bcfcd8640d16864c848237e52ba682fd8e1d63bd4601
+
+Total reclaimed space: 0B
+Deleted Images:
+deleted: sha256:e5beaa75e5cbbd8936e2d70d31884493f26d05431103cb787fe3a44665dc7895
+deleted: sha256:30c7c15f88318e7b703afb883c31ad77933cdc5eb6f8fbc58aa727630f826471
+deleted: sha256:cf1b61a6ca1babc25bd5a9b685514f04a4adc2aa1050e0b1516e2df60960e0ff
+deleted: sha256:b5140ee4e7700576a2683efacdf2173951cafafe69b3f4bdb7e4264196839e48
+deleted: sha256:981e944982dc55a386fa2363d2dce7b2ce2d83846350140ca37c97eb7af358f5
+deleted: sha256:a4ec8640c8c5cc7278f1e08b420cd5263363aedb002db1f4287690ff419b1953
+
+Total reclaimed space: 16.72MB
+2025-10-22 20:36:07 🎉 Deployment complete. Visit your EC2 public IP in a browser.
