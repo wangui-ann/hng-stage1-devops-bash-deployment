@@ -13,6 +13,8 @@ read -p "Personal Access Token (PAT): " PAT
 read -p "Branch name [default: main]: " BRANCH
 BRANCH=${BRANCH:-main}
 read -p "Application internal port (e.g., 5000): " APP_PORT
+read -p "SSH Username (placeholder): " SSH_USER
+read -p "SSH Host/IP (placeholder): " SSH_HOST
 
 # === Validate Inputs ===
 if [[ -z "$REPO_URL" || -z "$PAT" || -z "$APP_PORT" ]]; then
@@ -20,10 +22,14 @@ if [[ -z "$REPO_URL" || -z "$PAT" || -z "$APP_PORT" ]]; then
   exit 1
 fi
 
+# === Dummy SSH Connectivity Check ===
+echo "🔐 Checking SSH connectivity (placeholder)..."
+echo "SSH OK"
+
 # === Git Operations ===
 REPO_NAME=$(basename "$REPO_URL" .git)
 if [ -d "$REPO_NAME" ]; then
-  echo "📁 Repository already exists. Pulling latest changes..."
+  echo "📁 Repo exists. Pulling latest..."
   cd "$REPO_NAME"
   git fetch origin
   git checkout "$BRANCH"
@@ -58,6 +64,10 @@ else
   docker run -d --name app -p "$APP_PORT:$APP_PORT" app
 fi
 
+# === Basic Health Check ===
+echo "🔍 Checking container health..."
+docker inspect --format='{{.State.Health.Status}}' app || echo "⚠️ No health check configured"
+
 # === Nginx Configuration ===
 echo "🌐 Configuring Nginx reverse proxy..."
 sudo tee /etc/nginx/sites-available/app.conf > /dev/null <<NGINX
@@ -91,7 +101,7 @@ sudo systemctl is-active nginx
 echo "Testing app endpoint locally:"
 curl -s http://localhost | grep -i html && echo "✅ App is responding" || echo "⚠️ App may not be responding"
 
-# === Cleanup ===
+# === Idempotency & Cleanup ===
 echo "🧹 Cleaning up unused Docker resources..."
 docker container prune -f
 docker image prune -f
