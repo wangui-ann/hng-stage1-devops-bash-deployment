@@ -12,41 +12,88 @@ read -p "Git Repository URL: " REPO_URL
 read -p "Personal Access Token (PAT): " PAT
 read -p "Branch name [default: main]: " BRANCH
 BRANCH=${BRANCH:-main}
-read -p "Remote SSH Username: " SSH_USER
-read -p "Remote Server IP: " SERVER_IP
-read -p "SSH Key Path (e.g., ~/hng.pem): " SSH_KEY
 read -p "Application internal port (e.g., 5000): " APP_PORT
 
 # === Validate Inputs ===
-if [[ -z "$REPO_URL" || -z "$PAT" || -z "$SSH_USER" || -z "$SERVER_IP" || -z "$SSH_KEY" || -z "$APP_PORT" ]]; then
+if [[ -z "$REPO_URL" || -z "$PAT" || -z "$APP_PORT" ]]; then
   echo "❌ All fields are required. Please provide valid inputs."
   exit 1
 fi
 
-# === SSH Connectivity Check ===
-echo "🔐 Checking SSH connectivity..."
-ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no "$SSH_USER@$SERVER_IP" "echo SSH OK" || {
-  echo "❌ SSH connection failed"
-  exit 1
-}
-
 # === Git Operations ===
 REPO_NAME=$(basename "$REPO_URL" .git)
-echo "📦 Cloning repository..."
-ssh -i "$SSH_KEY" "$SSH_USER@$SERVER_IP" bash <<EOF
-  set -e
-  if [ -d "$REPO_NAME" ]; then
-    cd "$REPO_NAME"
-    git fetch origin
-    git checkout "$BRANCH"
-    git pull origin "$BRANCH"
-  else
-    git clone -b "$BRANCH" https://$PAT@${REPO_URL#https://} "$REPO_NAME"
-  fi
-EOF
+if [ -d "$REPO_NAME" ]; then
+  echo "📁 Repository already exists. Pulling latest changes..."
+  cd "$REPO_NAME"
+  git fetch origin
+  git checkout "$BRANCH"
+  git pull origin "$BRANCH"
+else
+  echo "📦 Cloning repository..."
+  git clone -b "$BRANCH" https://$PAT@${REPO_URL#https://} "$REPO_NAME"
+  cd "$REPO_NAME"
+fi
 
 # === Server Preparation ===
-echo "🛠️ Preparing remote server..."
-ssh -i "$SSH_KEY" "$SSH_USER@$SERVER_IP" bash <<EOF
-  set -e
-  sudo apt
+echo "🛠️ Installing dependencies..."
+sudo apt-get update -y
+sudo apt-get install -y docker.io docker-compose nginx curl dos2unix
+
+echo "🔐 Configuring Docker and Nginx..."
+sudo usermod -aG docker "$USER"
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo systemctl enable nginx
+sudo systemctl start nginx
+
+# === Docker Deployment ===
+echo "🐳 Deploying Docker container..."
+if [ -f "docker-compose.yml" ]; then
+  docker-compose down || true
+  docker-compose up -d --build
+else
+  docker stop app || true
+  docker rm app || true
+  docker build -t app .
+  docker run -d --name app -p "$APP_PORT:$APP_PORT" app
+fi
+
+# === Nginx Configuration ===
+echo "🌐 Configuring Nginx reverse proxy..."
+sudo tee /etc/nginx/sites-available/app.conf > /dev/null <<NGINX
+server {
+    listen 80;
+    location / {
+        proxy_pass http://localhost:$APP_PORT;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+    }
+}
+NGINX
+
+sudo ln -sf /etc/nginx/sites-available/app.conf /etc/nginx/sites-enabled/app.conf
+sudo nginx -t && sudo systemctl reload nginx
+
+# === SSL Placeholder ===
+echo "🔒 SSL setup placeholder — add Certbot or self-signed cert logic here if needed"
+
+# === Deployment Validation ===
+echo "✅ Validating deployment..."
+echo "Docker service status:"
+sudo systemctl is-active docker
+
+echo "Running containers:"
+docker ps
+
+echo "Nginx service status:"
+sudo systemctl is-active nginx
+
+echo "Testing app endpoint locally:"
+curl -s http://localhost | grep -i html && echo "✅ App is responding" || echo "⚠️ App may not be responding"
+
+# === Cleanup ===
+echo "🧹 Cleaning up unused Docker resources..."
+docker container prune -f
+docker image prune -f
+
+echo "🎉 Deployment complete. Visit your EC2 public IP in a browser."
