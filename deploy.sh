@@ -30,7 +30,8 @@ else
   echo "❌ Host unreachable"
 fi
 
-if ssh -o BatchMode=yes -o ConnectTimeout=5 "$SSH_USER@$SSH_HOST" "echo SSH connection successful"; then
+echo "$(date '+%Y-%m-%d %H:%M:%S') 🔐 Attempting SSH connection (placeholder)..."
+if ssh -i ~/your-key.pem -o BatchMode=yes -o ConnectTimeout=5 "$SSH_USER@$SSH_HOST" "echo SSH connection successful" 2>/dev/null; then
   echo "✅ SSH connection established"
 else
   echo "⚠️ SSH connection failed (placeholder)"
@@ -38,7 +39,11 @@ fi
 
 # === Remote Command Execution ===
 echo "$(date '+%Y-%m-%d %H:%M:%S') 🖥️ Executing remote command (placeholder)..."
-ssh "$SSH_USER@$SSH_HOST" "echo Remote command executed"
+if ssh -i ~/your-key.pem "$SSH_USER@$SSH_HOST" "echo Remote command executed" 2>/dev/null; then
+  echo "✅ Remote command executed"
+else
+  echo "⚠️ Remote command failed (placeholder)"
+fi
 
 # === File Transfer Placeholder ===
 echo "$(date '+%Y-%m-%d %H:%M:%S') 📤 Simulating file transfer..."
