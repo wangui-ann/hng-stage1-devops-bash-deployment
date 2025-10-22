@@ -24,7 +24,15 @@ fi
 
 # === Dummy SSH Connectivity Check ===
 echo "🔐 Checking SSH connectivity (placeholder)..."
-echo "SSH OK"
+if ssh -o BatchMode=yes -o ConnectTimeout=5 "$SSH_USER@$SSH_HOST" "echo SSH connection successful"; then
+  echo "✅ SSH connection established"
+else
+  echo "⚠️ SSH connection failed (placeholder)"
+fi
+
+# === Dummy Remote Command Execution ===
+echo "🖥️ Executing remote command (placeholder)..."
+ssh "$SSH_USER@$SSH_HOST" "echo Remote command executed"
 
 # === Git Operations ===
 REPO_NAME=$(basename "$REPO_URL" .git)
@@ -45,7 +53,7 @@ echo "🛠️ Installing dependencies..."
 sudo apt-get update -y
 sudo apt-get install -y docker.io docker-compose nginx curl dos2unix
 
-echo "🔐 Configuring Docker and Nginx..."
+echo "🔧 Configuring Docker and Nginx..."
 sudo usermod -aG docker "$USER"
 sudo systemctl enable docker
 sudo systemctl start docker
@@ -79,35 +87,3 @@ server {
     listen 80;
     location / {
         proxy_pass http://localhost:$APP_PORT;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-    }
-}
-NGINX
-
-sudo ln -sf /etc/nginx/sites-available/app.conf /etc/nginx/sites-enabled/app.conf
-sudo nginx -t && sudo systemctl reload nginx
-
-# === SSL Placeholder ===
-echo "🔒 SSL setup placeholder — add Certbot or self-signed cert logic here if needed"
-
-# === Deployment Validation ===
-echo "✅ Validating deployment..."
-echo "Docker service status:"
-sudo systemctl is-active docker
-
-echo "Running containers:"
-docker ps
-
-echo "Nginx service status:"
-sudo systemctl is-active nginx
-
-echo "Testing app endpoint locally:"
-curl -s http://localhost | grep -i html && echo "✅ App is responding" || echo "⚠️ App may not be responding"
-
-# === Idempotency & Cleanup ===
-echo "🧹 Cleaning up unused Docker resources..."
-docker container prune -f
-docker image prune -f
-
-echo "🎉 Deployment complete. Visit your EC2 public IP in a browser."
