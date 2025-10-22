@@ -66,7 +66,11 @@ fi
 
 # === Basic Health Check ===
 echo "🔍 Checking container health..."
-docker inspect --format='{{.State.Health.Status}}' app || echo "⚠️ No health check configured"
+if docker inspect app --format='{{.State.Health.Status}}' &>/dev/null; then
+  docker inspect app --format='Health: {{.State.Health.Status}}'
+else
+  echo "⚠️ No health check configured or container not found"
+fi
 
 # === Nginx Configuration ===
 echo "🌐 Configuring Nginx reverse proxy..."
